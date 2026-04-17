@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Cohort</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- React globally -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    
+    <!-- Babel for compiling JSX in the browser -->
+    <script src="https://unpkg.com/@babel/standalone@7.23.3/babel.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <!-- Inline React JSX to avoid local file CORS restrictions -->
+    <script type="text/babel">
+        const { useState } = React;
+
+        // Custom SVG Icons to replace lucide-react (since ES modules don't work over file:// protocol)
+        const Icon = ({ path, size = 24, className = "" }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                {path}
+            </svg>
+        );
+
+        const Clock = (props) => <Icon {...props} path={<><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>} />;
+        const Calendar = (props) => <Icon {...props} path={<><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></>} />;
+        const Monitor = (props) => <Icon {...props} path={<><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></>} />;
+        const Users = (props) => <Icon {...props} path={<><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>} />;
+        const Award = (props) => <Icon {...props} path={<><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></>} />;
+        const Check = (props) => <Icon {...props} path={<><polyline points="20 6 9 17 4 12"/></>} />;
+        const X = (props) => <Icon {...props} path={<><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></>} />;
+        const ArrowRight = (props) => <Icon {...props} path={<><line x1="5" x2="19" y1="12" y2="12"/><polyline points="12 5 19 12 12 19"/></>} />;
+        const ChevronDown = (props) => <Icon {...props} path={<><polyline points="6 9 12 15 18 9"/></>} />;
+
+
+        // Reusable Components for Minimalist Theme
+        const Section = ({ children, className = "", id = "" }) => (
+            <section id={id} className={`py-20 px-6 md:px-12 max-w-7xl mx-auto ${className}`}>
+                {children}
+            </section>
+        );
+
+        const SectionHeader = ({ title, subtitle }) => (
+            <div className="mb-12">
+                <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-black uppercase mb-4">
+                    {title}
+                </h2>
+                {subtitle && <p className="text-xl text-gray-600 max-w-2xl">{subtitle}</p>}
+            </div>
+        );
+
+        const Button = ({ children, primary = true, className = "", onClick }) => (
+            <button onClick={onClick} className={`px-8 py-4 text-sm font-bold uppercase tracking-wider transition-colors duration-200 border-2
+                rounded-none ${primary ? 'bg-black text-white border-black hover:bg-gray-800'
+                : 'bg-white text-black border-black hover:bg-gray-100' } ${className}`}>
+                {children}
+            </button>
+        );
+
+        const Card = ({ children, className = "" }) => (
+            <div className={`border border-black p-6 rounded-none ${className}`}>
+                {children}
+            </div>
+        );
+
+        function App() {
+            const [activeSession, setActiveSession] = useState(0);
+
+            const stats = [
+                { icon: <Clock size={20} />, text: "6 Sessions" },
+                { icon: <Calendar size={20} />, text: "3 Weeks" },
+                { icon: <Monitor size={20} />, text: "1 Hr/Class (Evening)" },
+                { icon: <Users size={20} />, text: "Batch of 10" },
+                { icon: <Award size={20} />, text: "Certificate" },
+            ];
+
+            const painPoints = [
+                "I don't know what to include or cut.",
+                "I have no metrics to show as impact.",
+                "My case study looks like a Behance post.",
+                "I start with Figma and get lost every time."
+            ];
+
+            const audiences = [
+                { title: "Fresh grads", desc: "You've done projects but don't know how to frame them for jobs." },
+                { title: "Working designers", desc: "Your case studies exist but are getting ignored in applications." },
+                { title: "Career switchers", desc: "You have relevant experience but can't show it in design terms." },
+                { title: "Self-taught designers", desc: "You've learned Figma but nobody taught you how to present." }
+            ];
+
+            const sessions = [
+                {
+                    title: "What a Case Study Actually Is",
+                    points: [
+                        "How recruiters read a case study in 90 seconds",
+                        "Why 'I designed X' is the wrong framing",
+                        "The Problem → Process → Impact structure",
+                        "Live teardown of good and bad examples"
+                    ],
+                    tag: "Mindset reset"
+                },
+                {
+                    title: "Picking the Right Project",
+                    points: [
+                        "The 5-filter test for a case study-worthy project",
+                        "What startups want vs what MNCs look for",
+                        "How to handle concept, freelance, or college projects",
+                        "Red flags that disqualify a case study before it's read"
+                    ],
+                    tag: "Portfolio strategy"
+                },
+                {
+                    title: "Research, Ideation & Process",
+                    points: [
+                        "What 'show your process' really means to a recruiter",
+                        "How to present research findings, not just raw data",
+                        "Showing ideation without it looking messy",
+                        "Retroactively documenting decisions made months ago"
+                    ],
+                    tag: "Showing your thinking"
+                },
+                {
+                    title: "Structure & Storytelling",
+                    points: [
+                        "The 5-beat narrative: Hook → Problem → Explore → Decide → Impact",
+                        "Writing headlines that tell the story, not just label sections",
+                        "How to show impact even when you have no metrics",
+                        "Ruthless editing — what to remove"
+                    ],
+                    tag: "The narrative arc"
+                },
+                {
+                    title: "Visual Presentation in Figma",
+                    points: [
+                        "Layout anatomy of a case study that works",
+                        "Typography, spacing, and visual hierarchy",
+                        "Presenting wireframes, flows, and final UI together",
+                        "Using Figma AI + ChatGPT for faster polish"
+                    ],
+                    tag: "Figma opens today"
+                },
+                {
+                    title: "Live Review & What Comes Next",
+                    points: [
+                        "Each designer presents their case study live",
+                        "Structured critique: story, logic, visual, interview-readiness",
+                        "How to walk a recruiter through it in 5 minutes",
+                        "Hosting it - Notion, PDF, portfolio site"
+                    ],
+                    tag: "Critique + career"
+                }
+            ];
+
+            const outcomes = [
+                { title: "1 Job-Ready Case Study", desc: "Critiqued live, revised and polished." },
+                { title: "Portfolio Strategy", desc: "Know exactly which projects to showcase and why." },
+                { title: "Storytelling Framework", desc: "A structure you can reuse for every future project." },
+                { title: "Recruiter-Level Feedback", desc: "Understand exactly what a hiring team looks for." },
+                { title: "AI Workflow", desc: "Faster research synthesis, writing, and polish." },
+                { title: "Course Certificate", desc: "Issued on submission of your completed case study." }
+            ];
+
+            return (
+                <div className="min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white">
+
+                    {/* Navigation */}
+                    <nav className="border-b border-black sticky top-0 bg-white z-50">
+                        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                            <div className="font-bold text-lg tracking-tighter uppercase">Design Cohort</div>
+                            <Button className="px-4 py-2 text-xs" onClick={() => window.open('https://forms.gle/qwKCghvMUhcQE53y6', '_blank')}>Enroll Now</Button>
+                        </div>
+                    </nav>
+
+                    {/* Hero Section */}
+                    <section className="pt-24 pb-16 px-6 md:px-12 max-w-7xl mx-auto">
+                        <div className="inline-block border border-black px-3 py-1 text-xs font-bold uppercase tracking-widest mb-8">
+                            Live Cohort Advanced
+                        </div>
+                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9] mb-8">
+                            Making of a <br />
+                            <span className="text-gray-400">Design Case Study</span>
+                        </h1>
+                        <p className="text-2xl md:text-3xl font-medium mb-12 max-w-3xl border-l-4 border-black pl-6 py-2">
+                            Stop designing first. Start thinking first.
+                        </p>
+
+                        {/* Quick Stats Banner */}
+                        <div className="flex flex-wrap gap-4 border-t border-b border-black py-6 mb-12">
+                            {stats.map((stat, i) => (
+                                <div key={i} className="flex items-center gap-2 pr-8 border-r border-gray-200 last:border-0 last:pr-0">
+                                    {stat.icon}
+                                    <span className="font-semibold text-sm uppercase tracking-wide">{stat.text}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* The Problem Section */}
+                    <Section className="bg-gray-50 border-t border-b border-black">
+                        <div className="grid md:grid-cols-2 gap-16 items-center">
+                            <div>
+                                <SectionHeader title="The 90-Second Rejection"
+                                    subtitle="Most designers spend weeks making a beautiful case study and still don't get the interview call. Why?" />
+                                <p className="text-lg leading-relaxed mb-6">
+                                    Not because their work is bad. Because they are presenting it wrong. They open Figma first, design a
+                                    pretty layout, and hope the recruiter figures out what happened.
+                                </p>
+                                <p className="text-lg font-bold">
+                                    Recruiters don't. They move on in 90 seconds.
+                                </p>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {painPoints.map((point, i) => (
+                                    <Card key={i} className="bg-white flex flex-col justify-between h-32">
+                                        <span className="text-gray-400 font-serif text-3xl leading-none">"</span>
+                                        <p className="font-medium text-sm">{point}</p>
+                                    </Card>
+                                ))}
+                            </div>
+                        </div>
+                    </Section>
+
+                    {/* The Core Idea (Methodology) */}
+                    <Section>
+                        <SectionHeader title="The Core Idea" />
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <Card className="bg-gray-100 border-gray-300">
+                                <div className="flex items-center gap-2 text-red-500 font-bold uppercase mb-6 tracking-wider text-sm">
+                                    <X size={18} /> What most do
+                                </div>
+                                <div className="flex flex-col gap-4">
+                                    {['Open Figma', 'Design Layouts', 'Add Screenshots', 'Hope it works'].map((step, i) => (
+                                        <div key={i} className="flex items-center gap-4 text-gray-500">
+                                            <div
+                                                className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-xs">
+                                                {i + 1}</div>
+                                            <span className="line-through">{step}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </Card>
+
+                            <Card className="border-black bg-black text-white">
+                                <div className="flex items-center gap-2 text-green-400 font-bold uppercase mb-6 tracking-wider text-sm">
+                                    <Check size={18} /> What we teach
+                                </div>
+                                <div className="flex flex-col gap-4">
+                                    {['Define Problem', 'Write the Story', 'Structure the Logic', 'Design Last'].map((step, i) => (
+                                        <div key={i} className="flex items-center gap-4">
+                                            <div
+                                                className="w-8 h-8 rounded-full border border-gray-700 flex items-center justify-center text-xs">
+                                                {i + 1}</div>
+                                            <span className="font-bold text-lg">{step}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <p className="mt-8 text-sm text-gray-400 border-t border-gray-800 pt-4">
+                                    Figma opens only in Session 5. Everything before that is thinking, writing, and structuring.
+                                </p>
+                            </Card>
+                        </div>
+                    </Section>
+
+                    {/* Who is this for */}
+                    <Section className="border-y border-black bg-gray-50">
+                        <SectionHeader title="Who is this for?"
+                            subtitle="Designers who know how to design but struggle to communicate it." />
+                        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {audiences.map((aud, i) => (
+                                <Card key={i} className="bg-white hover:bg-black hover:text-white transition-colors duration-300 group">
+                                    <h3 className="font-bold text-xl mb-4 group-hover:text-white">{aud.title}</h3>
+                                    <p className="text-sm text-gray-600 group-hover:text-gray-300">{aud.desc}</p>
+                                </Card>
+                            ))}
+                        </div>
+                    </Section>
+
+                    {/* Curriculum */}
+                    <Section id="curriculum">
+                        <SectionHeader title="The 6 Sessions" subtitle="A step-by-step breakdown of the 3-week program." />
+
+                        <div className="grid lg:grid-cols-3 gap-12">
+                            {/* Interactive Session List */}
+                            <div className="lg:col-span-1 flex flex-col border border-black">
+                                {sessions.map((session, i) => (
+                                    <button key={i} onClick={() => setActiveSession(i)}
+                                        className={`p-4 text-left border-b border-black last:border-0 font-bold uppercase tracking-wider
+                                    text-sm flex justify-between items-center transition-colors
+                                    ${activeSession === i ? 'bg-black text-white' : 'hover:bg-gray-100'}`}
+                                    >
+                                        <span>{i + 1}. {session.title}</span>
+                                        <ChevronDown size={16} className={`transform transition-transform ${activeSession === i ? '-rotate-90'
+                                            : ''}`} />
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Session Details */}
+                            <div className="lg:col-span-2">
+                                <Card className="h-full bg-gray-50 relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 bg-black text-white text-xs font-bold uppercase px-3 py-1">
+                                        {sessions[activeSession].tag}
+                                    </div>
+                                    <h3 className="text-3xl font-bold mb-8 pr-32">
+                                        Session {activeSession + 1}: <br />
+                                        <span className="text-gray-500">{sessions[activeSession].title}</span>
+                                    </h3>
+                                    <ul className="space-y-4">
+                                        {sessions[activeSession].points.map((point, i) => (
+                                            <li key={i} className="flex gap-4 items-start">
+                                                <ArrowRight size={20} className="shrink-0 mt-1" />
+                                                <span className="text-lg">{point}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </Card>
+                            </div>
+                        </div>
+                    </Section>
+
+                    {/* AI Tools & Outcomes Grid */}
+                    <Section className="border-t border-black">
+                        <div className="grid lg:grid-cols-2 gap-16">
+
+                            {/* AI Tools */}
+                            <div>
+                                <h2 className="text-3xl font-bold uppercase mb-8">AI as a Productivity Layer</h2>
+                                <p className="text-gray-600 mb-8">AI is used as a productivity layer, not a replacement for thinking.
+                                </p>
+                                <div className="space-y-4">
+                                    <Card className="flex gap-6 items-center">
+                                        <div className="font-bold w-24 shrink-0 uppercase text-xs">Claude</div>
+                                        <p className="text-sm">Feed it messy research notes → get a clean, structured insights summary.
+                                        </p>
+                                    </Card>
+                                    <Card className="flex gap-6 items-center">
+                                        <div className="font-bold w-24 shrink-0 uppercase text-xs">ChatGPT</div>
+                                        <p className="text-sm">Run your project through the 5-filter test, sharpen stories, rewrite weak
+                                            headlines.</p>
+                                    </Card>
+                                    <Card className="flex gap-6 items-center">
+                                        <div className="font-bold w-24 shrink-0 uppercase text-xs">Figma AI</div>
+                                        <p className="text-sm">Generate layout variants, polish visual hierarchy, speed up the design
+                                            phase.</p>
+                                    </Card>
+                                </div>
+                            </div>
+
+                            {/* Outcomes */}
+                            <div>
+                                <h2 className="text-3xl font-bold uppercase mb-8">What you walk away with</h2>
+                                <div className="grid sm:grid-cols-2 gap-4">
+                                    {outcomes.map((outcome, i) => (
+                                        <Card key={i} className="bg-black text-white border-black">
+                                            <h4 className="font-bold mb-2 text-sm uppercase">{outcome.title}</h4>
+                                            <p className="text-xs text-gray-400">{outcome.desc}</p>
+                                        </Card>
+                                    ))}
+                                </div>
+                            </div>
+
+                        </div>
+                    </Section>
+
+                    {/* Target Companies */}
+                    <Section className="bg-gray-50 border-t border-black text-center">
+                        <h2 className="text-2xl font-bold uppercase mb-6">Where this prepares you to work</h2>
+                        <div className="flex flex-wrap justify-center gap-4 mb-8">
+                            {['Startups', 'Mid-size Product Companies', 'MAANG-equivalent Indian firms'].map((type, i) => (
+                                <span key={i} className="px-4 py-2 border border-black text-sm font-bold uppercase tracking-wider bg-white">
+                                    {type}
+                                </span>
+                            ))}
+                        </div>
+                        <p className="max-w-3xl mx-auto text-gray-600 leading-relaxed">
+                            Think Swiggy, Zepto, CRED, Razorpay, PhonePe, Meesho, Groww, Juspay — product teams that move fast and need
+                            designers who can think, not just execute. This course prepares you to show up to those interviews with a
+                            case study that holds up under scrutiny.
+                        </p>
+                    </Section>
+
+                    {/* Pricing & CTA */}
+                    <Section className="border-t border-black bg-black text-white">
+                        <div className="grid md:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6">
+                                    Enroll in this Cohort
+                                </h2>
+                                <div className="text-4xl font-bold mb-2">₹14,000</div>
+                                <p className="text-gray-400 uppercase tracking-widest text-sm mb-8">Certificate Included</p>
+
+                                <Button primary={false} className="w-full md:w-auto text-lg py-5 px-12" onClick={() => window.open('https://forms.gle/qwKCghvMUhcQE53y6', '_blank')}>
+                                    Secure Your Seat
+                                </Button>
+                                <p className="mt-4 text-xs text-gray-400 uppercase tracking-wider">
+                                    Seats are limited to 10 per cohort to ensure meaningful feedback.
+                                </p>
+                            </div>
+
+                            <Card className="border-gray-800 bg-gray-900 text-white">
+                                <h3 className="font-bold uppercase tracking-widest text-sm mb-6 pb-4 border-b border-gray-800">
+                                    What is included
+                                </h3>
+                                <ul className="space-y-4">
+                                    {[
+                                        "6 live sessions with a practising designer",
+                                        "Weekly assignments with instructor feedback",
+                                        "Live critique of your case study in Session 6",
+                                        "Access to session recordings",
+                                        "Small batch of 10 — real attention, not a crowd",
+                                        "Certificate on completion"
+                                    ].map((item, i) => (
+                                        <li key={i} className="flex gap-3 items-start text-sm text-gray-300">
+                                            <Check size={16} className="shrink-0 mt-0.5 text-white" />
+                                            <span>{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </Card>
+                        </div>
+                    </Section>
+
+                    {/* Footer */}
+                    <footer className="py-8 border-t border-black text-center text-sm font-bold uppercase tracking-widest">
+                        <p>Live Cohort • Hinglish • Certificate on Completion • Batch of 10 Designers</p>
+                        <p className="text-gray-400 mt-2 text-xs">Powered by AI-assisted workflows</p>
+                        <p className="text-gray-500 mt-4 text-xs normal-case tracking-normal">
+                            This website is successfully running and being handled by <a href="https://youtube.com/@whatisux" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-700">What The UX</a> and <a href="https://linkedin.com/in/uxajaysoni" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-700">Ajay Soni</a>.
+                        </p>
+                    </footer>
+
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
