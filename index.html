@@ -173,14 +173,14 @@
             ];
 
             return (
-                <div className="min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white">
+                <div className="min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white pb-24 sm:pb-0">
 
                     {/* Navigation */}
                     <nav className="border-b border-black sticky top-0 bg-white z-50">
                         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
                             <div className="flex items-center gap-3">
                                 <img src="Black.png" alt="What The UX Logo" className="h-8 w-auto mix-blend-multiply" />
-                                <div className="font-bold text-lg tracking-tighter uppercase text-black">| Design Cohort</div>
+                                <div className="font-bold text-lg tracking-tighter uppercase text-black hidden sm:block">| Design Cohort</div>
                             </div>
                             <Button className="px-4 py-2 text-xs" onClick={() => window.open('https://forms.gle/qwKCghvMUhcQE53y6', '_blank')}>Enroll Now</Button>
                         </div>
@@ -449,6 +449,16 @@
                         </p>
                     </footer>
 
+                    {/* Sticky Mobile Footer */}
+                    <div className="fixed bottom-0 left-0 w-full bg-white border-t border-black p-4 flex sm:hidden justify-between items-center z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+                        <div className="flex flex-col">
+                            <span className="text-[10px] uppercase font-bold text-gray-500 tracking-wider">Cohort Price</span>
+                            <span className="text-xl font-black">₹4,000</span>
+                        </div>
+                        <Button className="px-6 py-3 text-sm" onClick={() => window.open('https://forms.gle/qwKCghvMUhcQE53y6', '_blank')}>
+                            Secure Seat
+                        </Button>
+                    </div>
                 </div>
             );
         }
