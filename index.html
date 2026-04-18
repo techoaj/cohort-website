@@ -75,14 +75,24 @@
             </div>
         );
 
+        const testimonials = [
+            { name: "Sairam Ennam", tag: "Batch 6", feedback: "Every concept is thoroughly explained and reinforced with real-world projects, which has significantly enhanced my understanding and practical skills. The hands-on approach and the relevance of the projects to real-world scenarios have been incredibly valuable in my learning journey" },
+            { name: "Sona", tag: "Live Workshop", feedback: "It's a 2 way communication platform which helps to discuss abt our pblms and learn new things.." },
+            { name: "Harshita", tag: "Batch 5", feedback: "Ajay (mentor), offered us profound insights on each topic. Also, the one-on-one discussions allowed us to clarify our doubts more thoroughly. Altogether our classes were a perfect 5 out of 5 !!!" },
+            { name: "Suryakant Kulkarni", tag: "Live Workshop", feedback: "Thanks for the amazing workshop. It was well designed for the freshers. Your tips and suggestions will definitely beneficial to me in my ux journey. Thanks a lot." },
+            { name: "Vidhi Mishra", tag: "Batch 4", feedback: "Thanks for doing it .It was good and informative but you could have added more of questions like those of tiffin comparisons, it would have been much more intriguing." },
+            { name: "Vrushabh Jain", tag: "Live Workshop", feedback: "As a design student, who is eagerly interested in UI/UX, this workshop was pretty interactive and engaging for me. I learnt a lot of good thing related to UI/UX. Ajay is a very good mentor." },
+            { name: "Visali .P", tag: "Batch 6", feedback: "I have learned that how we want to create design with ux principles ...loved to join in this workshop ." }
+        ];
+
         function App() {
             const [activeSession, setActiveSession] = useState(0);
 
             const stats = [
-                { icon: <Clock size={20} />, text: "6 Sessions" },
-                { icon: <Calendar size={20} />, text: "3 Weeks" },
+                { icon: <Calendar size={20} />, text: "First Class: 4th May" },
+                { icon: <Users size={20} />, text: "Batch 7 (10 Seats)" },
+                { icon: <Clock size={20} />, text: "6 Sessions (3 Weeks)" },
                 { icon: <Monitor size={20} />, text: "1 Hr/Class (Evening)" },
-                { icon: <Users size={20} />, text: "Batch of 10" },
                 { icon: <Award size={20} />, text: "Certificate" },
             ];
 
@@ -188,12 +198,24 @@
 
                     {/* Hero Section */}
                     <section className="pt-24 pb-16 px-6 md:px-12 max-w-7xl mx-auto">
+                        <style>{`
+                            @keyframes marquee {
+                                0% { transform: translateX(0%); }
+                                100% { transform: translateX(-50%); }
+                            }
+                            .animate-marquee {
+                                animation: marquee 30s linear infinite;
+                            }
+                            .animate-marquee:hover {
+                                animation-play-state: paused;
+                            }
+                        `}</style>
                         <div className="inline-flex items-center gap-2 border border-black px-3 py-1 text-xs font-bold uppercase tracking-widest mb-8">
                             <span className="relative flex h-2.5 w-2.5">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
                             </span>
-                            Live Cohort Advanced
+                            Live Cohort • Batch 7 • First Class: 4th May
                         </div>
                         <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9] mb-8">
                             Making of a <br />
@@ -281,8 +303,25 @@
                         </div>
                     </Section>
 
+                    {/* Marquee Testimonials */}
+                    <section className="py-12 border-y border-black overflow-hidden bg-white relative flex">
+                        <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+                        <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+                        <div className="flex animate-marquee whitespace-nowrap min-w-max">
+                            {[...testimonials, ...testimonials, ...testimonials].map((t, i) => (
+                                <Card key={i} className="w-[300px] md:w-[400px] h-48 flex flex-col shrink-0 bg-gray-50 mx-4 whitespace-normal border-black">
+                                    <div className="flex justify-between items-center mb-4 border-b border-gray-200 pb-4 shrink-0">
+                                        <div className="font-bold uppercase tracking-wider">{t.name}</div>
+                                        <div className="text-[10px] font-bold text-gray-500 border border-gray-300 px-2 py-1 uppercase">{t.tag}</div>
+                                    </div>
+                                    <p className="text-sm text-gray-700 leading-relaxed line-clamp-3">"{t.feedback}"</p>
+                                </Card>
+                            ))}
+                        </div>
+                    </section>
+
                     {/* Who is this for */}
-                    <Section className="border-y border-black bg-gray-50">
+                    <Section className="border-b border-black bg-gray-50">
                         <SectionHeader title="Who is this for?"
                             subtitle="Designers who know how to design but struggle to communicate it." />
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -385,27 +424,49 @@
                     {/* Target Companies */}
                     <Section className="bg-gray-50 border-t border-black text-center">
                         <h2 className="text-2xl font-bold uppercase mb-6">Where this prepares you to work</h2>
-                        <div className="flex flex-wrap justify-center gap-4 mb-8">
+                        <div className="flex flex-wrap justify-center gap-4 mb-10">
                             {['Startups', 'Mid-size Product Companies', 'MAANG-equivalent Indian firms'].map((type, i) => (
                                 <span key={i} className="px-4 py-2 border border-black text-sm font-bold uppercase tracking-wider bg-white">
                                     {type}
                                 </span>
                             ))}
                         </div>
-                        <p className="max-w-3xl mx-auto text-gray-600 leading-relaxed">
-                            Think Swiggy, Zepto, CRED, Razorpay, PhonePe, Meesho, Groww, Juspay — product teams that move fast and need
-                            designers who can think, not just execute. This course prepares you to show up to those interviews with a
-                            case study that holds up under scrutiny.
+
+                        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 mb-10 opacity-70">
+                            {[
+                                { name: "Swiggy", url: "swiggy.png" },
+                                { name: "Zepto", url: "zepto.png" },
+                                { name: "CRED", url: "cred.png" },
+                                { name: "PhonePe", url: "phonepe.png" },
+                                { name: "Meesho", url: "meesho.png" },
+                                { name: "Groww", url: "groww.png" }
+                            ].map((company, i) => (
+                                <img
+                                    key={i}
+                                    src={company.url}
+                                    alt={company.name}
+                                    title={company.name}
+                                    className="h-12 md:h-16 object-contain grayscale hover:grayscale-0 transition-all duration-300"
+                                    onError={(e) => { e.target.style.display = 'none'; }}
+                                />
+                            ))}
+                        </div>
+
+                        <p className="max-w-3xl mx-auto text-gray-500 leading-relaxed text-sm">
+                            Product teams that move fast and need designers who can think, not just execute. This course prepares you to show up to those interviews with a case study that holds up under scrutiny.
                         </p>
                     </Section>
 
                     {/* Pricing & CTA */}
                     <Section className="border-t border-black bg-black text-white">
-                        <div className="grid md:grid-cols-2 gap-12 items-center">
+                        <div className="grid md:grid-cols-2 gap-12 items-end mb-16">
                             <div>
                                 <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6">
-                                    Enroll in this Cohort
+                                    Enroll in Batch 7
                                 </h2>
+                                <div className="inline-flex items-center gap-2 bg-white text-black px-3 py-1 text-sm font-bold uppercase tracking-widest mb-6">
+                                    <Calendar size={16} /> First Class: 4th May
+                                </div>
                                 <div className="text-4xl font-bold mb-2">₹4,000</div>
                                 <p className="text-gray-400 uppercase tracking-widest text-sm mb-8">Certificate Included</p>
 
@@ -438,11 +499,27 @@
                                 </ul>
                             </Card>
                         </div>
+
+                        {/* Final CTA Testimonials */}
+                        <div className="border-t border-gray-800 pt-16 mt-8">
+                            <h3 className="text-2xl font-bold uppercase mb-8 text-center text-white">Feedback from Past Cohorts</h3>
+                            <div className="grid md:grid-cols-3 gap-6">
+                                {testimonials.slice(0, 3).map((t, i) => (
+                                    <Card key={i} className="border-gray-800 bg-gray-900 h-48 flex flex-col">
+                                        <div className="flex justify-between items-center mb-4 border-b border-gray-800 pb-4 shrink-0">
+                                            <div className="font-bold uppercase tracking-wider text-white">{t.name}</div>
+                                            <div className="text-[10px] font-bold text-gray-400 border border-gray-700 px-2 py-1 uppercase">{t.tag}</div>
+                                        </div>
+                                        <p className="text-sm text-gray-300 line-clamp-3">"{t.feedback}"</p>
+                                    </Card>
+                                ))}
+                            </div>
+                        </div>
                     </Section>
 
                     {/* Footer */}
                     <footer className="py-8 border-t border-black text-center text-sm font-bold uppercase tracking-widest">
-                        <p>Live Cohort • Hinglish • Certificate on Completion • Batch of 10 Designers</p>
+                        <p>Live Cohort • Batch 7 • First Class: 4th May • Hinglish • Certificate on Completion</p>
                         <p className="text-gray-400 mt-2 text-xs">Powered by AI-assisted workflows</p>
                         <p className="text-gray-500 mt-4 text-xs normal-case tracking-normal">
                             This website is successfully running and being handled by <a href="https://youtube.com/@whatisux" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-700">What The UX</a> and <a href="https://linkedin.com/in/uxajaysoni" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-700">Ajay Soni</a>.
