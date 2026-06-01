@@ -103,48 +103,18 @@
             { name: "Visali .P", tag: "Batch 6", feedback: "I have learned that how we want to create design with ux principles ...loved to join in this workshop ." }
         ];
 
-        const getPricingInfo = () => {
-            const now = new Date();
-            const deadline = new Date('2026-06-01T00:00:00+05:30'); // June 1st, 2026 IST
-            const isBefore = now < deadline;
-            
-            if (isBefore) {
-                const msDiff = deadline - now;
-                const days = Math.ceil(msDiff / (1000 * 60 * 60 * 24));
-                let urgencyText = "";
-                if (days === 1) {
-                    urgencyText = "Only 1 day left at this price!";
-                } else if (days > 1) {
-                    urgencyText = `Only ${days} days left at this price!`;
-                } else {
-                    urgencyText = "Ends tonight! Lock in 50% savings now.";
-                }
-                
-                return {
-                    price: 4000,
-                    originalPrice: 7999,
-                    discountText: "Flat 50% Off",
-                    urgency: urgencyText,
-                    subtext: "Price rises to ₹7,999 on 1st June.",
-                    isBefore,
-                    daysLeft: days
-                };
-            } else {
-                return {
-                    price: 7999,
-                    originalPrice: 7999,
-                    discountText: "",
-                    urgency: "Standard Cohort Pricing",
-                    subtext: "Certificate Included",
-                    isBefore,
-                    daysLeft: 0
-                };
-            }
+        const pricing = {
+            price: 7999,
+            originalPrice: 7999,
+            discountText: "",
+            urgency: "Standard Cohort Pricing",
+            subtext: "Certificate Included",
+            isBefore: false,
+            daysLeft: 0
         };
 
         function App() {
             const [activeSession, setActiveSession] = useState(0);
-            const pricing = getPricingInfo();
 
             const stats = [
                 { icon: <Calendar size={20} />, text: "First Class: 8th June" },
